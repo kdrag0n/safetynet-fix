@@ -1,7 +1,7 @@
 id=safetynet-fix
 name=Universal SafetyNet Fix
-version=v1.0.1
-versionCode=10001
+version=v1.0.2
+versionCode=10002
 author=kdrag0n
 description=A universal fix for SafetyNet on devices with hardware attestation and unlocked bootloaders. Requires MagiskHide if rooted. For Android 11 only.
 support=https://github.com/kdrag0n/safetynet-fix
