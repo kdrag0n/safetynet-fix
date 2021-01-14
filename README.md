@@ -6,7 +6,7 @@ No device-specific features (such as the new Pixel-exclusive Google Assistant de
 
 MagiskHide is required if the device is rooted.
 
-Only Android 10 and 11 are supported. Heavy OEM skins are not officially supported, but it may work on them depending on your luck and the particular ROM in question.
+Android 8.0, 8.1, 9, 10, and 11 are supported. Heavy OEM skins are not officially supported, but it may work on them depending on your luck and the particular ROM in question.
 
 ## How does it work?
 

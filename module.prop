@@ -3,5 +3,5 @@ name=Universal SafetyNet Fix
 version=v1.0.2
 versionCode=10002
 author=kdrag0n
-description=A universal fix for SafetyNet on devices with hardware attestation and unlocked bootloaders. Requires MagiskHide if rooted. For Android 10 and 11 only.
+description=A universal fix for SafetyNet on Android 8-11 devices with hardware attestation and unlocked bootloaders. Requires MagiskHide if rooted.
 support=https://github.com/kdrag0n/safetynet-fix
