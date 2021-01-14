@@ -1,17 +1,17 @@
 # Universal SafetyNet Fix
 
-This is a universal fix for SafetyNet on devices with hardware attestation and unlocked bootloaders. It defeats both hardware attestation and the new SafetyNet ctsProfile updates released on January 12, 2021. The only requirement is that you can pass basic attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels. Passing basic attestation is out-of-scope for this module.
+This is a universal fix for SafetyNet on devices with hardware attestation and unlocked bootloaders. It defeats both hardware attestation and the new SafetyNet CTS profile updates released on January 12, 2021. The only requirement is that you can pass basic attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels. Passing basic attestation is out-of-scope for this module.
 
 No device-specific features (such as the new Pixel-exclusive Google Assistant design or screen-off voice match) will be lost with this fix.
 
 MagiskHide is required if the device is rooted.
 
-Android 8.0, 8.1, 9, 10, and 11 are supported. Heavy OEM skins are not officially supported, but it may work on them depending on your luck and the particular ROM in question.
+Android versions 8 through 11 are supported. Heavy OEM skins are not officially supported, but they may work depending on your luck and the particular ROM in question.
 
 ## How does it work?
 
 In order to enforce SafetyNet security, Google Play Services is now
-using hardware attestation for ctsProfile validation in all cases, even
+using hardware attestation for CTS profile validation in all cases, even
 when basic attestation is selected. The SafetyNet API response from GMS
 will report that basic attestation was used, but under the hood,
 hardware attestation is always used regardless of the reported state.
@@ -29,7 +29,7 @@ bootloader.
 Key attestation is still available for other apps, as there are valid
 uses for it that do not involve SafetyNet.
 
-The "not implemented" error code from keymaster is used to simulate the
+The "not implemented" error code from Keymaster is used to simulate the
 most realistic failure condition to evade detection, i.e. an old device
 that lacks support for key attestation.
 
@@ -40,7 +40,7 @@ Ideally, this workaround should be incorporated in ROMs instead of overriding pa
 There are 2 options for:
 
 - Blocking GMS in the framework, which is more portable across Android versions and typically less intrusive for ROMs to integrate
-- Blocking GMS in the native keystore service, which is slightly more future-proof and  but may require forking another repository
+- Blocking GMS in the native keystore service, which is slightly more future-proof but may require forking another repository
 
 You only need **one** of the workarounds on the ROM side. Adding both is redundant.
 
