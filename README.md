@@ -54,3 +54,13 @@ Commits for the native version of the workaround that modifies the C++ keystore 
 - [Android 10](https://github.com/ProtonAOSP/android_system_security/commit/qt)
 - [Android 9](https://github.com/ProtonAOSP/android_system_security/commit/pi)
 - [Android 8.1](https://github.com/ProtonAOSP/android_system_security/commit/oc)
+
+## Where is the source code?
+
+The keystore executables and libraries in this repository were built with the commits linked above. The target CPU was changed to generic ARMv8-A for all target devices.
+
+- Android 11: Built from ProtonAOSP 11.3.1 (android-11.0.0_r24) for `redfin`
+- Android 10: Built from LineageOS 17.1 (android-10.0.0_r41) for `taimen`
+- Android 9: Built from AOSP android-9.0.0_r61 for `taimen`
+- Android 8.1: Built from AOSP android-8.1.0_r81 for `taimen`
+- Android 8.0: Built from AOSP android-8.0.0_r51 for `marlin`
