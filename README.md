@@ -55,6 +55,8 @@ Commits for the native version of the workaround that modifies the C++ keystore 
 - [Android 9](https://github.com/ProtonAOSP/android_system_security/commit/pi)
 - [Android 8.1](https://github.com/ProtonAOSP/android_system_security/commit/oc)
 
+All of the above commits are also available in the form of patch files [in this repository](https://github.com/kdrag0n/safetynet-fix/tree/master/patches).
+
 ## Where is the source code?
 
 The keystore executables and libraries in this repository were built with the commits linked above. The target CPU was changed to generic ARMv8-A for all target devices.
