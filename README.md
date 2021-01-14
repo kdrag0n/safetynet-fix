@@ -10,4 +10,47 @@ Only Android 10 and 11 are supported. Heavy OEM skins are not officially support
 
 ## How does it work?
 
-An in-depth explanation, as well as source code, can be found in the [ROM commit](https://github.com/ProtonAOSP/android_system_security/commit/15633a3d29bf727b83083f2c49d906c16527d389).
+In order to enforce SafetyNet security, Google Play Services is now
+using hardware attestation for ctsProfile validation in all cases, even
+when basic attestation is selected. The SafetyNet API response from GMS
+will report that basic attestation was used, but under the hood,
+hardware attestation is always used regardless of the reported state.
+This results in SafetyNet failing to pass due to TrustZone reporting an
+unlocked bootloader (and a partially invalidated root of trust) in the
+key attestation result.
+
+We can still take advantage of the fact that this usage of hardware
+attestation is opportunistic - that is, it falls back to basic
+attestation if key attestation fails to run - and prevent GMS from using
+key attestation at the framework level. This causes it to gracefully
+fall back to basic attestation and pass SafetyNet with an unlocked
+bootloader.
+
+Key attestation is still available for other apps, as there are valid
+uses for it that do not involve SafetyNet.
+
+The "not implemented" error code from keymaster is used to simulate the
+most realistic failure condition to evade detection, i.e. an old device
+that lacks support for key attestation.
+
+## ROM integration
+
+Ideally, this workaround should be incorporated in ROMs instead of overriding part of the ROM in a Magisk module.
+
+There are 2 options for:
+
+- Blocking GMS in the framework, which is more portable across Android versions and typically less intrusive for ROMs to integrate
+- Blocking GMS in the native keystore service, which is slightly more future-proof and  but may require forking another repository
+
+You only need **one** of the workarounds on the ROM side. Adding both is redundant.
+
+Commits for the framework version of the workaround:
+
+- [Android 11](https://github.com/ProtonAOSP/android_frameworks_base/commit/7f7a9b19c8293c09dfee12bec75ff17225c6710e)
+
+Commits for the native version of the workaround that modifies the C++ keystore service in system/security:
+
+- [Android 11](https://github.com/ProtonAOSP/android_system_security/commit/15633a3d29bf727b83083f2c49d906c16527d389)
+- [Android 10](https://github.com/ProtonAOSP/android_system_security/commit/qt)
+- [Android 9](https://github.com/ProtonAOSP/android_system_security/commit/pi)
+- [Android 8.1](https://github.com/ProtonAOSP/android_system_security/commit/oc)
