@@ -1,15 +1,12 @@
 #!/sbin/sh
 
 sdk="$(getprop ro.build.version.sdk)"
+version="$(getprop ro.vendor.build.version.release)"
 
-if [ "$sdk" -eq 30 ]; then
-    ui_print "Installing for Android 11"
-    mv $MODPATH/system_sdk30 $MODPATH/system
-elif [ "$sdk" -eq 29 ]; then
-    ui_print "Installing for Android 10"
-    mv $MODPATH/system_sdk29 $MODPATH/system
+if mv "$MODPATH/system_sdk$sdk" $MODPATH/system; then
+    ui_print "Installing for Android $version"
 else
-    ui_print "Android $(getprop ro.vendor.build.version.release) (SDK $sdk) is not supported!"
+    ui_print "Android $version (SDK $sdk) is not supported!"
     exit 1
 fi
 
