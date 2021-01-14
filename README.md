@@ -6,7 +6,7 @@ No device-specific features (such as the new Pixel-exclusive Google Assistant de
 
 MagiskHide is required if the device is rooted.
 
-Android versions 8 through 11 are supported. Heavy OEM skins are not officially supported, but they may work depending on your luck and the particular ROM in question.
+Android versions 8–11 are supported. Heavy OEM skins are not officially supported, but they may work depending on your luck and the particular ROM in question.
 
 ## How does it work?
 
@@ -20,8 +20,8 @@ unlocked bootloader (and a partially invalidated root of trust) in the
 key attestation result.
 
 We can still take advantage of the fact that this usage of hardware
-attestation is opportunistic - that is, it falls back to basic
-attestation if key attestation fails to run - and prevent GMS from using
+attestation is opportunistic — that is, it falls back to basic
+attestation if key attestation fails to run — and prevent GMS from using
 key attestation at the framework level. This causes it to gracefully
 fall back to basic attestation and pass SafetyNet with an unlocked
 bootloader.
