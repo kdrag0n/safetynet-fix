@@ -11,12 +11,19 @@ fi
 
 sdk="$(getprop ro.build.version.sdk)"
 version="$(getprop ro.vendor.build.version.release)"
+issamsung="$(getprop ro.product.system.brand)"
 
-if mv "$MODPATH/system_sdk$sdk" $MODPATH/system; then
-    ui_print "Installing for Android $version"
+if [[ "$issamsung" == "samsung" ]]; then
+    ui_print "Samsung device detected - hexpatching..."
+    cp -f -p /bin/keystore $MODPATH/system/bin
+    ./magiskboot hexpatch $MODPATH/system/bin/keystore 4E0074696D657374616D7000616E6472 4E0000696D657374616D7000616E6472
 else
-    ui_print "Android $version (SDK $sdk) is not supported!"
+    if mv "$MODPATH/system_sdk$sdk" $MODPATH/system; then
+        ui_print "Installing for Android $version"
+    else
+        ui_print "Android $version (SDK $sdk) is not supported!"
     exit 1
+    fi
 fi
 
 # Remove unused SDKs
