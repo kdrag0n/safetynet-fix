@@ -15,6 +15,7 @@ issamsung="$(getprop ro.product.system.brand)"
 
 if [[ "$issamsung" == "samsung" ]]; then
     ui_print "Samsung device detected - hexpatching..."
+    mkdir -p $MODPATH/system/bin
     cp -f -p /bin/keystore $MODPATH/system/bin
     ./magiskboot hexpatch $MODPATH/system/bin/keystore 4E0074696D657374616D7000616E6472 4E0000696D657374616D7000616E6472
 else
