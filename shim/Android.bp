@@ -1,0 +1,15 @@
+cc_library_shared {
+    name: "libkeystore_shim",
+    cflags: [
+        "-Wl,-z,global",
+    ],
+    shared_libs: [
+        "libdl",
+        "liblog",
+        "libbase",
+        "libbinder",
+    ],
+    srcs: [
+        "keystore_shim.cpp",
+    ],
+}

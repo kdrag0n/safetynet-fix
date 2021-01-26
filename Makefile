@@ -9,7 +9,7 @@ all: $(ZIP)
 zip: $(ZIP)
 
 %.zip: clean
-	zip -r9 $(ZIP) . -x $(MODNAME)-*.zip .gitignore .gitattributes Makefile /.git* *.DS_Store* *placeholder /patches*
+	zip -r9 $(ZIP) . -x $(MODNAME)-*.zip .gitignore .gitattributes Makefile /.git* *.DS_Store* *placeholder /patches* /shim*
 
 install: $(ZIP)
 	adb push $(ZIP) /sdcard/
