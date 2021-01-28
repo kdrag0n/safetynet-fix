@@ -1,6 +1,6 @@
 # Universal SafetyNet Fix
 
-This is a universal fix for SafetyNet on devices with hardware attestation and unlocked bootloaders. It defeats both hardware attestation and the new SafetyNet CTS profile updates released on January 12, 2021. The only requirement is that you can pass basic attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels.
+This is a universal fix for SafetyNet on devices with hardware attestation and unlocked bootloaders or custom verified boot keys. It defeats both hardware attestation and the new SafetyNet CTS profile updates released on January 12, 2021. The only requirement is that you can pass basic attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels.
 
 Passing basic attestation is out-of-scope for this module; this module is meant to defy hardware attestation, as well as reported "basic" attestation that actually uses hardware under-the-hood. Use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof your CTS profile if you have trouble passing basic attestation. This is a common situation on old devices and custom ROMs.
 
