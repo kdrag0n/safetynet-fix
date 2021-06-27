@@ -8,7 +8,7 @@ No device-specific features (such as the new Pixel-exclusive Google Assistant de
 
 MagiskHide is required if the device is rooted.
 
-Android versions 8–11 are supported. **Heavy OEM skins are not officially supported**, but they may work depending on your luck and the particular ROM in question. Please do not report problems on such ROMs.
+Android versions 8–12 Beta 2 are supported. **Heavy OEM skins are not officially supported**, but they may work depending on your luck and the particular ROM in question. Please do not report problems on such ROMs.
 
 ## How does it work?
 
@@ -63,8 +63,13 @@ All of the above commits are also available in the form of patch files [in this 
 
 The keystore executables and libraries in this repository were built with the commits linked above. The target CPU was changed to generic ARMv8-A for all target devices.
 
+- Android 12 Beta 2: Built from AOSP master for `aosp_arm64`
 - Android 11: Built from ProtonAOSP 11.3.1 (android-11.0.0_r24) for `redfin`
 - Android 10: Built from LineageOS 17.1 (android-10.0.0_r41) for `taimen`
 - Android 9: Built from AOSP android-9.0.0_r61 for `taimen`
 - Android 8.1: Built from AOSP android-8.1.0_r81 for `taimen`
 - Android 8.0: Built from AOSP android-8.0.0_r51 for `marlin`
+
+## Support
+
+If you found this module helpful, please consider supporting development with a **[recurring donation](https://patreon.com/kdrag0n)** on Patreon for benefits such as exclusive behind-the-scenes development news, early access to updates, and priority support. Alternatively, you can also [buy me a coffee](https://paypal.me/kdrag0ndonate). All support is appreciated.
