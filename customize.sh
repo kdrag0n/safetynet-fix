@@ -28,3 +28,4 @@ for sdk in $MODPATH/system_sdk*
 do
     set_perm_recursive $sdk/bin 0 0 0755 0755
 done
+chmod 755 $MODPATH/*.sh
