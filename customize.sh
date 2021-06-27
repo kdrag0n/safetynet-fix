@@ -16,15 +16,15 @@ if getprop ro.build.id | grep -q SPB2; then
     version="12 Beta 2"
 fi
 
-if mv "$MODPATH/system_sdk$sdk" $MODPATH/system; then
-    ui_print "Installing for Android $version"
-else
+# Initial version check; version can be changed later.
+if [[ ! -d "$MODPATH/system_sdk$sdk" ]]; then
     ui_print "Android $version (SDK $sdk) is not supported!"
+    rm -fr "$MODPATH"
     exit 1
 fi
 
-# Remove unused SDKs
-rm -fr $MODPATH/system_sdk*
-
 # Set executable permissions
-set_perm_recursive $MODPATH/system/bin 0 0 0755 0755
+for sdk in $MODPATH/system_sdk*
+do
+    set_perm_recursive $sdk/bin 0 0 0755 0755
+done
