@@ -5,9 +5,9 @@ MODPATH="/data/adb/modules/safetynet-fix"
 # Get runtime version
 sdk="$(getprop ro.build.version.sdk)"
 version="$(getprop ro.vendor.build.version.release)"
-if getprop ro.build.id | grep -q SPB2; then
-    sdk=31-b2
-    version="12 Beta 2"
+if getprop ro.build.id | grep -q SPB3; then
+    sdk=31
+    version="12 Beta 3"
 fi
 
 # Prepare to update version
