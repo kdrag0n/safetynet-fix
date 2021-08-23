@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class dev.kdrag0n.safetynetriru.EntryPoint {
+    public static void init();
+}
+
+-keepclassmembers class dev.kdrag0n.safetynetriru.ProxyKeyStoreSpi {
+    public <init>(...);
+}
