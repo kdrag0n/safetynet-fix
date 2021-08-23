@@ -1,5 +1,7 @@
 package dev.kdrag0n.safetynetriru
 
+import dev.kdrag0n.safetynetriru.proxy.ProxyKeyStoreSpi
+import dev.kdrag0n.safetynetriru.proxy.ProxyProvider
 import java.security.KeyStore
 import java.security.KeyStoreSpi
 import java.security.Security

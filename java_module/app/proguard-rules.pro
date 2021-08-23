@@ -24,6 +24,6 @@
     public static void init();
 }
 
--keepclassmembers class dev.kdrag0n.safetynetriru.ProxyKeyStoreSpi {
+-keepclassmembers class dev.kdrag0n.safetynetriru.proxy.ProxyKeyStoreSpi {
     public <init>(...);
 }
