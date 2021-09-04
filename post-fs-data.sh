@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-MODPATH="/data/adb/modules/safetynet-fix"
+MODPATH=${0%/*}
 
 # Get runtime version
 sdk="$(getprop ro.build.version.sdk)"
