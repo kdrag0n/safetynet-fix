@@ -6,3 +6,10 @@ ro.boot.flash.locked=1
 ro.boot.verifiedbootstate=green
 ro.boot.veritymode=enforcing
 ro.boot.vbmeta.device_state=locked
+
+# Old HW hack, LOL
+ro.product.model=Pixel
+ro.product.system.model=Pixel
+ro.product.vendor.model=Pixel
+ro.product.product.model=Pixel
+ro.product.odm.model=Pixel
