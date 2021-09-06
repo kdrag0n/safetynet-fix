@@ -8,9 +8,11 @@ Android versions 7–12 are supported, including OEM skins such as Samsung One U
 
 ## How does it work?
 
-Google Play Services opportunistically uses hardware-backed attestation to enforce SafetyNet security (since January 12, 2021), regardless of the device.
+Google Play Services opportunistically uses hardware-backed attestation to enforce SafetyNet security (since January 12, 2021), and enforces its usage based on the device model name (since September 2, 2021).
 
 This module uses Riru to inject code into the Google Play Services process and then register a fake keystore provider that overrides the real one. When Play Services attempts to use key attestation, it throws an exception and pretends that the device lacks support for key attestation. This causes SafetyNet to fall back to basic attestation, which is much weaker and can be bypassed with existing methods.
+
+Normally, basic attestation fails on devices that are known by Google to support hardware-backed attestation, but this module bypasses the check by appending a space character to the device model name. This has minimal impact on UX when only applied to Google Play Services, but it's sufficient for bypassing enforcement of hardware-backed attestation.
 
 Key attestation is only blocked specifically for SafetyNet in Google Play Services,
 so no other features are broken.
