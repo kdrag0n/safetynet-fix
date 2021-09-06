@@ -1,0 +1,35 @@
+apply plugin: 'idea'
+
+idea.module {
+    excludeDirs += file('out')
+    resourceDirs += file('template')
+    resourceDirs += file('scripts')
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.2'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+    }
+}
+
+ext {
+    minSdkVersion = 23
+    targetSdkVersion = 30
+
+    outDir = file("$rootDir/out")
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir, outDir
+}
