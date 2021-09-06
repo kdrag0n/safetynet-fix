@@ -8,7 +8,7 @@ No device-specific features (such as the new Pixel-exclusive Google Assistant de
 
 MagiskHide is required if the device is rooted.
 
-Android versions 8–12 Beta 2 are supported. **Heavy OEM skins are not officially supported**, but they may work depending on your luck and the particular ROM in question. Please do not report problems on such ROMs.
+Android versions 7–12 are supported. **Heavy OEM skins are not officially supported**, but they may work depending on your luck and the particular ROM in question. Please do not report problems on such ROMs.
 
 ## How does it work?
 
