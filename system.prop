@@ -1,8 +1,0 @@
-# RootBeer, Microsoft
-ro.build.tags=release-keys
-
-# SafetyNet
-ro.boot.flash.locked=1
-ro.boot.verifiedbootstate=green
-ro.boot.veritymode=enforcing
-ro.boot.vbmeta.device_state=locked
