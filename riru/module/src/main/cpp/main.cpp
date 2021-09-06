@@ -10,7 +10,7 @@
 #include <android/log.h>
 
 #ifndef NDEBUG
-#define DEBUG(...) __android_log_write(ANDROID_LOG_DEBUG, "SafetyNetJNI/SARU", __VA_ARGS__)
+#define DEBUG(...) __android_log_write(ANDROID_LOG_DEBUG, "SafetyNetRiru/JNI", __VA_ARGS__)
 #else
 #define DEBUG(...)
 #endif
