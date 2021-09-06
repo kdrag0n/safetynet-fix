@@ -38,6 +38,8 @@ ui_print "- Extracting module files"
 
 extract "$ZIPFILE" 'module.prop' "$MODPATH"
 extract "$ZIPFILE" 'classes.dex' "$MODPATH"
+extract "$ZIPFILE" 'service.sh' "$MODPATH"
+chmod 755 "$MODPATH/service.sh"
 
 # Riru v24+ load files from the "riru" folder in the Magisk module folder
 # This "riru" folder is also used to determine if a Magisk module is a Riru module
