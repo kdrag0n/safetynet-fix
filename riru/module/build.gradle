@@ -1,0 +1,136 @@
+import org.apache.tools.ant.filters.FixCrLfFilter
+import org.apache.tools.ant.filters.ReplaceTokens
+
+import java.security.MessageDigest
+
+apply plugin: 'com.android.library'
+apply from: file(rootProject.file('module.gradle'))
+
+android {
+    compileSdkVersion rootProject.ext.targetSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        externalNativeBuild {
+            cmake {
+                arguments "-DMODULE_NAME:STRING=$moduleLibraryName",
+                        "-DRIRU_MODULE_API_VERSION=$moduleRiruApiVersion",
+                        "-DRIRU_MODULE_VERSION=$moduleVersionCode",
+                        "-DRIRU_MODULE_VERSION_NAME:STRING=$moduleVersion",
+                        "-DRIRU_MODULE_MIN_API_VERSION=$moduleMinRiruApiVersion"
+            }
+        }
+    }
+    buildFeatures {
+        prefab true
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+}
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    // This is prefab aar which contains "riru.h"
+    // If you want to use older versions of AGP,
+    // you can copy this file from https://github.com/RikkaApps/Riru/blob/master/riru/src/main/cpp/include_riru/riru.h
+
+    // The default version of prefab in AGP has problem to process header only package,
+    // you may have to add "android.prefabVersion" in your gradle.properties.
+    // See https://github.com/google/prefab/issues/122
+
+    implementation 'dev.rikka.ndk:riru:26.0.0'
+}
+
+
+afterEvaluate {
+    android.libraryVariants.forEach { variant ->
+        def variantCapped = variant.name.capitalize()
+        def variantLowered = variant.name.toLowerCase()
+
+        def zipName = "${magiskModuleId.replace('_', '-')}-${moduleVersion}-${variantLowered}.zip"
+        def magiskDir = file("$outDir/magisk_module_$variantLowered")
+
+        task("prepareMagiskFiles${variantCapped}", type: Sync) {
+            dependsOn("assemble$variantCapped")
+
+            def templatePath = "$rootDir/template/magisk_module"
+
+            into magiskDir
+            from(templatePath) {
+                exclude 'riru.sh', 'module.prop'
+            }
+            from(templatePath) {
+                include 'riru.sh'
+                filter(ReplaceTokens.class, tokens: [
+                        "RIRU_MODULE_LIB_NAME"             : moduleLibraryName,
+                        "RIRU_MODULE_API_VERSION"          : moduleRiruApiVersion.toString(),
+                        "RIRU_MODULE_MIN_API_VERSION"      : moduleMinRiruApiVersion.toString(),
+                        "RIRU_MODULE_MIN_RIRU_VERSION_NAME": moduleMinRiruVersionName,
+                ])
+                filter(FixCrLfFilter.class,
+                        eol: FixCrLfFilter.CrLf.newInstance("lf"))
+            }
+            from(templatePath) {
+                include 'module.prop'
+                expand([
+                        id         : magiskModuleId,
+                        name       : moduleName,
+                        version    : moduleVersion,
+                        versionCode: moduleVersionCode.toString(),
+                        author     : moduleAuthor,
+                        description: moduleDescription,
+                ])
+                filter(FixCrLfFilter.class,
+                        eol: FixCrLfFilter.CrLf.newInstance("lf"))
+            }
+            from("$buildDir/intermediates/stripped_native_libs/$variantLowered/out/lib") {
+                into 'lib'
+            }
+            doLast {
+                fileTree("$magiskDir").visit { f ->
+                    if (f.directory) return
+                    if (f.file.name == '.gitattributes') return
+
+                    def md = MessageDigest.getInstance("SHA-256")
+                    f.file.eachByte 4096, { bytes, size ->
+                        md.update(bytes, 0, size)
+                    }
+                    file(f.file.path + ".sha256sum").text = md.digest().encodeHex()
+                }
+            }
+        }
+
+        task("zip${variantCapped}", type: Zip) {
+            dependsOn("prepareMagiskFiles${variantCapped}")
+            from magiskDir
+            archiveName zipName
+            destinationDir outDir
+        }
+
+        task("push${variantCapped}", type: Exec) {
+            dependsOn("zip${variantCapped}")
+            workingDir outDir
+            commandLine android.adbExecutable, "push", zipName, "/data/local/tmp/"
+        }
+
+        task("flash${variantCapped}", type: Exec) {
+            dependsOn("push${variantCapped}")
+            commandLine android.adbExecutable, "shell", "su", "-c",
+                    "magisk --install-module /data/local/tmp/${zipName}"
+        }
+
+        task("flashAndReboot${variantCapped}", type: Exec) {
+            dependsOn("flash${variantCapped}")
+            commandLine android.adbExecutable, "shell", "reboot"
+        }
+
+        variant.assembleProvider.get().finalizedBy("zip${variantCapped}")
+    }
+}

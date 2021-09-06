@@ -1,0 +1,30 @@
+ext {
+    /*
+       This name will be used in the name of the so file ("lib${moduleLibraryName}.so").
+    */
+    moduleLibraryName = "template"
+
+    /* Minimal supported Riru API version, used in the version check of riru.sh */
+    moduleMinRiruApiVersion = 24
+
+    /* The version name of minimal supported Riru, used in the version check of riru.sh */
+    moduleMinRiruVersionName = "v24.0.0"
+
+    /* Maximum supported Riru API version, used in the version check of riru.sh */
+    moduleRiruApiVersion = 26
+
+    /*
+       Magisk module ID
+       Since Magisk use it to distinguish different modules, you should never change it.
+
+       Note, the older version of the template uses '-' instead of '_', if your are upgrading from
+       the older version, please pay attention.
+    */
+    magiskModuleId = "riru_template"
+
+    moduleName = "Template"
+    moduleAuthor = "Template"
+    moduleDescription = "Riru module template. Requires Riru $moduleMinRiruVersionName or above."
+    moduleVersion = "v26.0.0"
+    moduleVersionCode = 26
+}
