@@ -12,4 +12,3 @@
 /out
 .externalNativeBuild
 .cxx
-module.gradle
