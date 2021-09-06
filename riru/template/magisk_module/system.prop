@@ -1,0 +1,19 @@
+# RootBeer, Microsoft
+ro.build.tags=release-keys
+
+# SafetyNet
+ro.boot.flash.locked=1
+ro.boot.verifiedbootstate=green
+ro.boot.veritymode=enforcing
+ro.boot.vbmeta.device_state=locked
+
+# Additional properties from MagiskHide
+ro.boot.warranty_bit=0
+ro.warranty_bit=0
+ro.debuggable=0
+ro.secure=1
+ro.build.type=user
+ro.vendor.boot.warranty_bit=0
+ro.vendor.warranty_bit=0
+vendor.boot.vbmeta.device_state=locked
+vendor.boot.verifiedbootstate=green
