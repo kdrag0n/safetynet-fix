@@ -23,11 +23,13 @@ static char lastAppDataDir[APP_DATA_DIR_SIZE];
 
 static void updateAppDataDir(JNIEnv *env, jstring appDataDir) {
     DEBUG("updateAppDataDir");
-    if (appDataDir == nullptr) {
+    if (!appDataDir) {
         DEBUG("dir is null");
         memset(lastAppDataDir, 0, APP_DATA_DIR_SIZE);
     } else {
         DEBUG("copy dir");
+        // For simplicity, copy it into the buffer and release the JNI copy instead
+        // of keeping the JNI string reference.
         const char *copy = env->GetStringUTFChars(appDataDir, NULL);
         strncpy(lastAppDataDir, copy, APP_DATA_DIR_SIZE);
         env->ReleaseStringUTFChars(appDataDir, copy);
@@ -38,11 +40,8 @@ static void updateAppDataDir(JNIEnv *env, jstring appDataDir) {
 static void specializeCommon(JNIEnv *env) {
     DEBUG("specializeCommon");
     DEBUG(lastAppDataDir);
-    if (moduleDex == nullptr) {
-        DEBUG("dex null");
-    }
-    if (moduleDex == nullptr || strstr(lastAppDataDir, "com.google.android.gms") == nullptr) {
-        DEBUG("pkg doesn't match");
+    if (!moduleDex || !strstr(lastAppDataDir, "com.google.android.gms")) {
+        DEBUG("dex null or pkg doesn't match");
         riru_set_unload_allowed(true);
         return;
     }
@@ -63,15 +62,14 @@ static void specializeCommon(JNIEnv *env) {
     jmethodID dexClInit = env->GetMethodID(dexClClass, "<init>", "(Ljava/nio/ByteBuffer;Ljava/lang/ClassLoader;)V");
     jobject dexCl = env->NewObject(dexClClass, dexClInit, buf, systemClassLoader);
 
-    // Run it
+    // Load the class
     DEBUG("load class method lookup");
     jmethodID loadClass = env->GetMethodID(clClass, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
     DEBUG("call load class");
-    // Create a Java string. VM crashes with a C string.
     jstring entryClassName = env->NewStringUTF("dev.kdrag0n.safetynetriru.EntryPoint");
     jobject entryClassObj = env->CallObjectMethod(dexCl, loadClass, entryClassName);
 
-    // Call init
+    // Call init. Static initializers don't run when merely calling loadClass from JNI.
     DEBUG("call init");
     auto entryClass = (jclass) entryClassObj;
     jmethodID entryInit = env->GetStaticMethodID(entryClass, "init", "()V");
@@ -85,6 +83,7 @@ static void *readFile(char *path, size_t *fileSize) {
         DEBUG("open fail");
         return nullptr;
     }
+
     // Get size
     DEBUG("get size");
     *fileSize = lseek(fd, 0, SEEK_END);
@@ -93,6 +92,7 @@ static void *readFile(char *path, size_t *fileSize) {
         return nullptr;
     }
     lseek(fd, 0, SEEK_SET);
+
     // Map
     /*
     DEBUG("mmap");
@@ -100,13 +100,17 @@ static void *readFile(char *path, size_t *fileSize) {
     if (moduleDex == MAP_FAILED) {
         DEBUG("mmap fail");
     }*/
-    // Close the fd. This doesn't destroy the mapping.
-    //DEBUG("close");
+
+    // Read the entire file into a buffer
+    // TODO: see if mmap path is visible in /proc/pid/maps after closing and forking
     char *data = (char *) malloc(*fileSize);
     int bytes = 0;
     while (bytes < *fileSize) {
         bytes += read(fd, data + bytes, *fileSize - bytes);
     }
+
+    // Close the fd. This doesn't destroy the mapping.
+    DEBUG("close");
     close(fd);
 
     return data;
@@ -131,29 +135,17 @@ static void specializeAppProcessPre(
 }
 
 static void forkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
-    // Called "after" com_android_internal_os_Zygote_nativeForkAndSpecialize in frameworks/base/core/jni/com_android_internal_os_Zygote.cpp
-    // "res" is the return value of com_android_internal_os_Zygote_nativeForkAndSpecialize
-
     if (res == 0) {
-        // In app process
+        // Child process
         specializeCommon(env);
     }
 }
 
-static void specializeAppProcessPost(
-        JNIEnv *env, jclass clazz) {
-    // Called "after" com_android_internal_os_Zygote_nativeSpecializeAppProcess in frameworks/base/core/jni/com_android_internal_os_Zygote.cpp
+static void specializeAppProcessPost(JNIEnv *env, jclass clazz) {
     specializeCommon(env);
 }
 
 static void onModuleLoaded() {
-    // Called when this library is loaded and "hidden" by Riru (see Riru's hide.cpp)
-
-    // If you want to use threads, start them here rather than the constructors
-    // __attribute__((constructor)) or constructors of static variables,
-    // or the "hide" will cause SIGSEGV
-
-
     // Load
     DEBUG("onModuleLoaded, loading file");
     char pathBuf[128];
@@ -202,4 +194,5 @@ RiruVersionedModuleInfo *init(Riru *riru) {
     }
     return &module;
 }
+
 }
