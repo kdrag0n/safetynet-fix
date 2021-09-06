@@ -2,7 +2,7 @@ package dev.kdrag0n.safetynetriru
 
 import android.util.Log
 
-private const val DEBUG = true
+private const val DEBUG = false
 private const val TAG = "SafetyNetRiru/Java"
 
 internal fun <T> Any.get(name: String) = this::class.java.getDeclaredField(name).let { field ->
