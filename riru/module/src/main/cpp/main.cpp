@@ -15,8 +15,6 @@
 #define DEBUG(...)
 #endif
 
-static constexpr bool DEBUG = true;
-
 static void *moduleDex;
 static size_t moduleDexSize;
 
