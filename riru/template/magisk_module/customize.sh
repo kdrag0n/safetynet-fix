@@ -1,7 +1,6 @@
 SKIPUNZIP=1
 
 # Extract verify.sh
-ui_print "- Extracting verify.sh"
 unzip -o "$ZIPFILE" 'verify.sh' -d "$TMPDIR" >&2
 if [ ! -f "$TMPDIR/verify.sh" ]; then
   ui_print    "*********************************************************"
@@ -38,7 +37,7 @@ fi
 ui_print "- Extracting module files"
 
 extract "$ZIPFILE" 'module.prop' "$MODPATH"
-extract "$ZIPFILE" 'uninstall.sh' "$MODPATH"
+extract "$ZIPFILE" 'classes.dex' "$MODPATH"
 
 # Riru v24+ load files from the "riru" folder in the Magisk module folder
 # This "riru" folder is also used to determine if a Magisk module is a Riru module
