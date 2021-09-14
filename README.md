@@ -6,6 +6,12 @@ Passing basic attestation is out-of-scope for this module; this module is meant 
 
 Android versions 7–12 are supported, including OEM skins such as Samsung One UI and MIUI. **This is a Riru module, so Riru must be installed in order for it to work.**
 
+## Installation
+
+Download and install the latest release from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases). The module must be installed using Magisk Manager, not TWRP or any other custom recovery.
+
+Always make sure you have the **latest version of the module** installed before reporting any issues.
+
 ## How does it work?
 
 Google Play Services opportunistically uses hardware-backed attestation to enforce SafetyNet security (since January 12, 2021), and enforces its usage based on the device model name (since September 2, 2021).
