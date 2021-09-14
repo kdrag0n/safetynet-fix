@@ -1,2 +1,7 @@
 .DS_Store
 /*.zip
+
+# VS Code Java Language Server
+.settings/
+.project
+.classpath
