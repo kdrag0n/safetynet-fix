@@ -1,4 +1,5 @@
 #!/system/bin/sh
+# Conditional MagiskHide properties
 
 maybe_set_prop() {
     local prop="$1"
@@ -15,7 +16,7 @@ maybe_set_prop ro.bootmode recovery unknown
 maybe_set_prop ro.boot.mode recovery unknown
 maybe_set_prop vendor.boot.mode recovery unknown
 
-# MIUI region
+# MIUI cross-region flash
 maybe_set_prop ro.boot.hwc CN GLOBAL
 maybe_set_prop ro.boot.hwcountry China GLOBAL
 
@@ -26,3 +27,13 @@ if [[ "$(cat /sys/fs/selinux/enforce)" == "0" ]]; then
     chmod 640 /sys/fs/selinux/enforce
     chmod 440 /sys/fs/selinux/policy
 fi
+
+# Late props which must be set after boot_completed
+{
+    until [[ "$(getprop sys.boot_completed)" == "1" ]]; do
+        sleep 1
+    done
+
+    # avoid breaking OnePlus display modes/fingerprint scanners
+    resetprop vendor.boot.verifiedbootstate green
+}&
