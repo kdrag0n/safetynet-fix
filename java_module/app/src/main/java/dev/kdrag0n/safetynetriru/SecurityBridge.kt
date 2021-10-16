@@ -19,7 +19,7 @@ internal object SecurityBridge {
 
         val provider = ProxyProvider(realProvider)
         logDebug("Removing real provider")
-        Security.removeProvider("AndroidKeyStore")
+        Security.removeProvider(PROVIDER_NAME)
         logDebug("Inserting provider $provider")
         Security.insertProviderAt(provider, 1)
         ProxyKeyStoreSpi.androidImpl = realSpi
