@@ -1,0 +1,3 @@
+[submodule "zygisk/module/jni/libcxx"]
+	path = zygisk/module/jni/libcxx
+	url = https://github.com/topjohnwu/libcxx.git

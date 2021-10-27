@@ -1,0 +1,11 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    externalNativeBuild {
+        ndkBuild {
+            path("jni/Android.mk")
+        }
+    }
+}
