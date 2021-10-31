@@ -1,35 +1,34 @@
 #!/usr/bin/env bash
 
-set -veuo pipefail
+set -euo pipefail
 
-tmp_dir="$(mktemp --tmpdir -d modulebuild.XXXXXXXXXX)"
-function cleanup() {
-    rm -fr "$tmp_dir"
-}
-trap cleanup EXIT
+build_mode="${1:-release}"
 
-build_mode="${1:-Release}"
+cd "$(dirname "$0")"
 
-pushd "$(dirname "$0")"
-src_dir="$(pwd)"
+pushd zygisk/module
+rm -fr libs
+debug_mode=1
+if [[ "$build_mode" == "release" ]]; then
+    debug_mode=0
+fi
+$HOME/code/android/sdk/ndk/21.4.7075529/ndk-build -j48 NDK_DEBUG=$debug_mode
 popd
 
-cd "$tmp_dir"
-
-pushd "$src_dir/riru"
-rm -fr out
-./gradlew "assemble$build_mode"
-popd
-
-pushd "$src_dir/java_module"
+pushd java_module
 # Must always be release due to R8 requirement
 ./gradlew assembleRelease
 popd
 
-unzip "$src_dir/riru/out/safetynet-fix-"*.zip
-unzip "$src_dir/java_module/app/build/outputs/apk/release/app-release.apk" classes.dex
-sha256sum classes.dex | cut -d' ' -f1 | tr -d '\n' > classes.dex.sha256sum
+mkdir -p magisk/zygisk
+for arch in arm64-v8a armeabi-v7a x86 x86_64
+do
+    cp "zygisk/module/libs/$arch/libsafetynetfix.so" "magisk/zygisk/$arch.so"
+done
 
+pushd magisk
 version="$(grep '^version=' module.prop  | cut -d= -f2)"
-rm -f "$src_dir/safetynet-fix-$version.zip"
-zip -r9 "$src_dir/safetynet-fix-$version.zip" .
+rm -f "../safetynet-fix-$version.zip" classes.dex
+unzip "../java_module/app/build/outputs/apk/release/app-release.apk" "classes.dex"
+zip -r9 "../safetynet-fix-$version.zip" .
+popd
