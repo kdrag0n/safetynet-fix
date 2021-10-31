@@ -18,30 +18,22 @@
 static void *moduleDex;
 static size_t moduleDexSize;
 
-static constexpr size_t APP_DATA_DIR_SIZE = 128;
-static char lastAppDataDir[APP_DATA_DIR_SIZE];
+static bool gmsSpecializePending = false;
 
-static void updateAppDataDir(JNIEnv *env, jstring appDataDir) {
-    DEBUG("updateAppDataDir");
-    if (!appDataDir) {
-        DEBUG("dir is null");
-        memset(lastAppDataDir, 0, APP_DATA_DIR_SIZE);
-    } else {
-        DEBUG("copy dir");
-        // For simplicity, copy it into the buffer and release the JNI copy instead
-        // of keeping the JNI string reference.
-        const char *copy = env->GetStringUTFChars(appDataDir, NULL);
-        strncpy(lastAppDataDir, copy, APP_DATA_DIR_SIZE);
-        env->ReleaseStringUTFChars(appDataDir, copy);
-        DEBUG(lastAppDataDir);
-    }
+static void updateNiceName(JNIEnv *env, jstring niceName) {
+    const char *copy = env->GetStringUTFChars(niceName, NULL);
+    // The unstable process is where SafetyNet attestation actually runs, so we only need to
+    // spoof the model in that process. Leaving other processes alone fixes various issues
+    // caused by model detection and flag provisioning, such as broken weather with the new
+    // smartspace on Android 12.
+    gmsSpecializePending = !strcmp(copy, "com.google.android.gms.unstable");
+    env->ReleaseStringUTFChars(niceName, copy);
 }
 
 static void specializeCommon(JNIEnv *env) {
     DEBUG("specializeCommon");
-    DEBUG(lastAppDataDir);
-    if (!moduleDex || !strstr(lastAppDataDir, "com.google.android.gms")) {
-        DEBUG("dex null or pkg doesn't match");
+    if (!moduleDex || !gmsSpecializePending) {
+        DEBUG("dex null or specialize not pending");
         riru_set_unload_allowed(true);
         return;
     }
@@ -122,7 +114,7 @@ static void forkAndSpecializePre(
         jintArray *fdsToClose, jintArray *fdsToIgnore, jboolean *is_child_zygote,
         jstring *instructionSet, jstring *appDataDir, jboolean *isTopApp, jobjectArray *pkgDataInfoList,
         jobjectArray *whitelistedDataInfoList, jboolean *bindMountAppDataDirs, jboolean *bindMountAppStorageDirs) {
-    updateAppDataDir(env, *appDataDir);
+    updateNiceName(env, *niceName);
 }
 
 static void specializeAppProcessPre(
@@ -131,7 +123,7 @@ static void specializeAppProcessPre(
         jboolean *startChildZygote, jstring *instructionSet, jstring *appDataDir,
         jboolean *isTopApp, jobjectArray *pkgDataInfoList, jobjectArray *whitelistedDataInfoList,
         jboolean *bindMountAppDataDirs, jboolean *bindMountAppStorageDirs) {
-    updateAppDataDir(env, *appDataDir);
+    updateNiceName(env, *niceName);
 }
 
 static void forkAndSpecializePost(JNIEnv *env, jclass clazz, jint res) {
