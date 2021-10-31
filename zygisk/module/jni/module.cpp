@@ -35,6 +35,11 @@ public:
         }
     }
 
+    void preServerSpecialize(zygisk::ServerSpecializeArgs *args) override {
+        // Never tamper with system_server
+        api->setOption(zygisk::DLCLOSE_MODULE_LIBRARY);
+    }
+
 private:
     zygisk::Api *api;
     JNIEnv *env;
