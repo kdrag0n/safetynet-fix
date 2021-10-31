@@ -28,6 +28,9 @@ if [[ "$(cat /sys/fs/selinux/enforce)" == "0" ]]; then
     chmod 440 /sys/fs/selinux/policy
 fi
 
+# Remove Play Services from DenyList, otherwise the Zygisk module won't load
+magisk --denylist rm com.google.android.gms
+
 # Late props which must be set after boot_completed
 {
     until [[ "$(getprop sys.boot_completed)" == "1" ]]; do
