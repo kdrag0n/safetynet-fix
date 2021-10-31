@@ -1,0 +1,6 @@
+id=safetynet-fix
+name=Universal SafetyNet Fix
+version=v2.1.1
+versionCode=20101
+author=kdrag0n
+description=A universal fix for SafetyNet on Android 7–12 devices with hardware attestation and unlocked bootloaders.
