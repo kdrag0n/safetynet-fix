@@ -4,6 +4,8 @@ namespace safetynetfix {
 
 static constexpr auto TAG = "SafetyNetFix/JNI";
 
+static constexpr auto MODULE_DEX_PATH = "/data/adb/modules/safetynet-fix/classes.dex";
+
 #ifdef NDEBUG
 #define LOGD(...)
 #else

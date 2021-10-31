@@ -158,7 +158,7 @@ static off_t sendFile(int remote_fd, const std::string& path) {
 
 static void companionHandler(int remote_fd) {
     // Serve module dex
-    auto size = sendFile(remote_fd, "/data/adb/modules/safetynet-fix/classes.dex");
+    auto size = sendFile(remote_fd, MODULE_DEX_PATH);
     LOGD("Sent module payload: %ld bytes", size);
 }
 
