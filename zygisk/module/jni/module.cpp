@@ -20,6 +20,10 @@ public:
 
     void preAppSpecialize(zygisk::AppSpecializeArgs *args) override {
         const char *rawProcess = env->GetStringUTFChars(args->nice_name, nullptr);
+        if (rawProcess == nullptr) {
+            return;
+        }
+
         std::string process(rawProcess);
         env->ReleaseStringUTFChars(args->nice_name, rawProcess);
 
@@ -71,7 +75,7 @@ private:
     }
 
     void loadPayload() {
-        int fd = api->connectCompanion();
+        auto fd = api->connectCompanion();
 
         auto size = receiveFile(fd, moduleDex);
         LOGD("Loaded module payload: %d bytes", size);
@@ -107,39 +111,39 @@ private:
     void injectPayload() {
         // First, get the system classloader
         LOGD("get system classloader");
-        jclass clClass = env->FindClass("java/lang/ClassLoader");
-        jmethodID getSystemClassLoader = env->GetStaticMethodID(clClass, "getSystemClassLoader",
-                                                                "()Ljava/lang/ClassLoader;");
-        jobject systemClassLoader = env->CallStaticObjectMethod(clClass, getSystemClassLoader);
+        auto clClass = env->FindClass("java/lang/ClassLoader");
+        auto getSystemClassLoader = env->GetStaticMethodID(clClass, "getSystemClassLoader",
+                                                           "()Ljava/lang/ClassLoader;");
+        auto systemClassLoader = env->CallStaticObjectMethod(clClass, getSystemClassLoader);
 
         // Assuming we have a valid mapped module, load it. This is similar to the approach used for
         // Dynamite modules in GmsCompat, except we can use InMemoryDexClassLoader directly instead of
         // tampering with DelegateLastClassLoader's DexPathList.
         LOGD("create buffer");
-        jobject buf = env->NewDirectByteBuffer(moduleDex.data(), moduleDex.size());
+        auto buf = env->NewDirectByteBuffer(moduleDex.data(), moduleDex.size());
         LOGD("create class loader");
-        jclass dexClClass = env->FindClass("dalvik/system/InMemoryDexClassLoader");
-        jmethodID dexClInit = env->GetMethodID(dexClClass, "<init>",
-                                               "(Ljava/nio/ByteBuffer;Ljava/lang/ClassLoader;)V");
-        jobject dexCl = env->NewObject(dexClClass, dexClInit, buf, systemClassLoader);
+        auto dexClClass = env->FindClass("dalvik/system/InMemoryDexClassLoader");
+        auto dexClInit = env->GetMethodID(dexClClass, "<init>",
+                                          "(Ljava/nio/ByteBuffer;Ljava/lang/ClassLoader;)V");
+        auto dexCl = env->NewObject(dexClClass, dexClInit, buf, systemClassLoader);
 
         // Load the class
         LOGD("load class");
-        jmethodID loadClass = env->GetMethodID(clClass, "loadClass",
+        auto loadClass = env->GetMethodID(clClass, "loadClass",
                                                "(Ljava/lang/String;)Ljava/lang/Class;");
-        jstring entryClassName = env->NewStringUTF("dev.kdrag0n.safetynetriru.EntryPoint");
-        jobject entryClassObj = env->CallObjectMethod(dexCl, loadClass, entryClassName);
+        auto entryClassName = env->NewStringUTF("dev.kdrag0n.safetynetriru.EntryPoint");
+        auto entryClassObj = env->CallObjectMethod(dexCl, loadClass, entryClassName);
 
         // Call init. Static initializers don't run when merely calling loadClass from JNI.
         LOGD("call init");
         auto entryClass = (jclass) entryClassObj;
-        jmethodID entryInit = env->GetStaticMethodID(entryClass, "init", "()V");
+        auto entryInit = env->GetStaticMethodID(entryClass, "init", "()V");
         env->CallStaticVoidMethod(entryClass, entryInit);
     }
 };
 
 static off_t sendFile(int remote_fd, const std::string& path) {
-    int in_fd = open(path.c_str(), O_RDONLY);
+    auto in_fd = open(path.c_str(), O_RDONLY);
     if (in_fd < 0) {
         LOGE("Failed to open file %s: %d (%s)", path.c_str(), errno, strerror(errno));
         return -1;
