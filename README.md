@@ -1,16 +1,24 @@
 # Universal SafetyNet Fix
 
-This is a universal fix for SafetyNet on devices with hardware-backed attestation and unlocked bootloaders (or custom verified boot keys). It defeats both hardware attestation and the SafetyNet CTS profile updates released on January 12, 2021. The only requirement is that you can pass basic attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels. **MagiskHide is required as a result.**
+This is a universal fix for SafetyNet on devices with hardware-backed attestation and unlocked bootloaders (or custom verified boot keys). It defeats both hardware attestation and the SafetyNet CTS profile updates released in 2021. The only requirement is that you can pass basic attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels. **MagiskHide is required as a result.**
 
 Passing basic attestation is out-of-scope for this module; this module is meant to defy hardware attestation, as well as reported "basic" attestation that actually uses hardware under-the-hood. Use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof your CTS profile if you have trouble passing basic attestation. This is a common issue on old devices and custom ROMs.
 
-Android versions 7–12 are supported, including OEM skins such as Samsung One UI and MIUI. **This is a Riru module, so Riru must be installed in order for it to work.**
+Android versions 7–12 are supported, including OEM skins such as Samsung One UI and MIUI. **This module requires Zygisk (for Magisk Canary) or Riru (for stable Magisk).**
 
 ## Installation
 
-Download and install the latest release from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases). The module must be installed using Magisk Manager, not TWRP or any other custom recovery.
+The module must be installed using Magisk Manager, not TWRP or any other custom recovery.
 
 Always make sure you have the **latest version of the module** installed before reporting any issues.
+
+## Zygisk
+
+If you are using Magisk Canary, you need the Zygisk version of this module. Download and install the latest **Zygisk** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases).
+
+## Riru
+
+If you are using stable Magisk, you need the Riru version of this module. Download and install the latest **Riru** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases). You will also need to install "Riru" through Magisk Manager.
 
 ## How does it work?
 
@@ -24,11 +32,7 @@ Unlike many other approaches, this doesn't break other features because key atte
 
 ## ROM integration
 
-Ideally, this workaround should be incorporated in custom ROMs instead of injecting code with a Magisk module. **Please note that the following patches have not been updated for the new September 2 changes yet.**
-
-Commits for the system framework version of the workaround:
-
-- [Android 11](https://github.com/ProtonAOSP/android_frameworks_base/commit/7f7a9b19c8293c09dfee12bec75ff17225c6710e)
+Ideally, this workaround should be incorporated in custom ROMs instead of injecting code with a Magisk module. See the [ProtonAOSP website](https://protonaosp.kdrag0n.dev/developers/details/safetynet) for more information.
 
 ## Support
 
