@@ -10,7 +10,6 @@ ro.vendor.warranty_bit=0
 ro.warranty_bit=0
 
 # SafetyNet
-ro.boot.flash.locked=1
 ro.boot.verifiedbootstate=green
 ro.boot.veritymode=enforcing
 ro.boot.vbmeta.device_state=locked
