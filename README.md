@@ -1,8 +1,10 @@
 # Universal SafetyNet Fix
 
-This is a universal fix for SafetyNet on devices with hardware-backed attestation and unlocked bootloaders (or custom verified boot keys). It defeats both hardware attestation and the SafetyNet CTS profile updates released in 2021. The only requirement is that you can pass basic attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels. **MagiskHide is required as a result.**
+Universal fix for SafetyNet on devices with hardware-backed attestation and unlocked bootloaders.
 
-Passing basic attestation is out-of-scope for this module; this module is meant to defy hardware attestation, as well as reported "basic" attestation that actually uses hardware under-the-hood. Use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof your CTS profile if you have trouble passing basic attestation. This is a common issue on old devices and custom ROMs.
+This module works around hardware attestation and recent updates to SafetyNet CTS profile checks. However, you must be able to pass basic (i.e. non-hardware) attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels. **Thus, MagiskHide is required.**
+
+If you have trouble passing basic attestation after installing this module, use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof your CTS profile. This is a common issue on old devices, custom ROMs, and stock ROMs without GMS certification (e.g. Chinese ROMs).
 
 Android versions 7–12 are supported, including OEM skins such as Samsung One UI and MIUI. **This module requires Zygisk (for Magisk Canary) or Riru (for stable Magisk).**
 
