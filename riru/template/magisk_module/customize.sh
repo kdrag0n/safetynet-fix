@@ -33,6 +33,11 @@ else
   ui_print "- Device platform: $ARCH"
 fi
 
+# Check Android version
+if [[ "$(getprop ro.build.version.sdk)" -lt 26 ]]; then
+    abort "! This module only supports Android 8.0 and newer."
+fi
+
 # Extract libs
 ui_print "- Extracting module files"
 
