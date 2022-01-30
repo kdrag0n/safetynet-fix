@@ -1,8 +1,8 @@
 # Universal SafetyNet Fix
 
-Universal fix for SafetyNet on devices with hardware-backed attestation and unlocked bootloaders.
+Magisk module to work around Google's SafetyNet attestation.
 
-This module works around hardware attestation and recent updates to SafetyNet CTS profile checks. However, you must be able to pass basic (i.e. non-hardware) attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels. **Thus, MagiskHide is required.**
+This module works around hardware attestation and recent updates to SafetyNet CTS profile checks. However, you must be able to pass basic (i.e. non-hardware) attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels.
 
 If you have trouble passing basic attestation after installing this module, use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof your CTS profile. This is a common issue on old devices, custom ROMs, and stock ROMs without GMS certification (e.g. Chinese ROMs).
 
@@ -14,13 +14,15 @@ The module must be installed using Magisk Manager, not TWRP or any other custom 
 
 Always make sure you have the **latest version of the module** installed before reporting any issues.
 
-## Zygisk
+## Zygisk (recommended)
 
-If you are using Magisk Canary, you need the Zygisk version of this module. Download and install the latest **Zygisk** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases).
+If you are using Magisk v24.0 or newer, you need the Zygisk version of this module. Download and install the latest **Zygisk** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases).
 
-## Riru
+**Make sure Zygisk is enabled,** or the module will not work.
 
-If you are using stable Magisk, you need the Riru version of this module. Download and install the latest **Riru** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases). You will also need to install "Riru" through Magisk Manager.
+## Riru (legacy)
+
+If you are using Magisk v23.1 or older, you need the Riru version of this module. Download and install the latest **Riru** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases). You will also need to install "Riru" through Magisk Manager.
 
 ## How does it work?
 
