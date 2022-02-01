@@ -2,5 +2,5 @@
     "version": "v2.2.1",
     "versionCode": 20201,
     "zipUrl": "https://github.com/kdrag0n/safetynet-fix/releases/download/v2.2.1/safetynet-fix-v2.2.1.zip",
-    "changelog": "https://github.com/kdrag0n/safetynet-fix/releases"
+    "changelog": "https://raw.githubusercontent.com/kdrag0n/safetynet-fix/master/CHANGELOG.md"
 }
