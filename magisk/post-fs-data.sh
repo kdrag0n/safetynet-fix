@@ -1,4 +1,6 @@
 #!/system/bin/sh
 
-# Remove Play Services from DenyList, otherwise the Zygisk module won't load
-magisk --denylist rm com.google.android.gms
+# Remove Play Services from the Magisk Denylist when set to enforcing.
+if magisk --denylist status; then
+	magisk --denylist rm com.google.android.gms
+fi
