@@ -6,7 +6,7 @@ This module works around hardware attestation and recent updates to SafetyNet CT
 
 If you have trouble passing basic attestation after installing this module, use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof your CTS profile. This is a common issue on old devices, custom ROMs, and stock ROMs without GMS certification (e.g. Chinese ROMs).
 
-Android versions 8–12 are supported, including OEM skins such as Samsung One UI and MIUI. **This module requires Zygisk (for stable Magisk) or Riru (for Magisk 24 or lower).**
+Android versions 8–12 are supported, including OEM skins such as Samsung One UI and MIUI. **This module requires Zygisk (for stable Magisk) or Riru (for Magisk 23 or lower).**
 
 ## Installation
 
