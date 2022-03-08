@@ -37,6 +37,9 @@ fi
     # avoid breaking Realme fingerprint scanners
     resetprop ro.boot.flash.locked 1
 
+    # avoid breaking Oppo fingerprint scanners
+    resetprop ro.boot.vbmeta.device_state locked
+
     # avoid breaking OnePlus display modes/fingerprint scanners
     resetprop vendor.boot.verifiedbootstate green
 }&
