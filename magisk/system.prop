@@ -21,3 +21,7 @@ vendor.boot.vbmeta.device_state=locked
 ro.build.type=user
 ro.debuggable=0
 ro.secure=1
+
+# SELinux
+ro.boot.selinux=enforcing
+ro.build.selinux=1
