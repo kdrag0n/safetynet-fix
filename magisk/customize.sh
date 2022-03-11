@@ -1,12 +1,15 @@
 #!/system/bin/sh
 
-# Android 8.0 or newer
+# Check if is Android 8.0 or newer
 if [[ "$(getprop ro.build.version.sdk)" -lt 26 ]]; then
-    ui_print "This module only supports Android 8.0 and newer."
+    ui_print "Legacy Android version (<= 7.1)! Keep properties only."
 
-    # Abort install and clean up
-    rm -fr "$TMPDIR" "$MODPATH"
-    exit 1
+    # Clean up
+    rm -fr "$MODPATH/zygisk"
+    rm -f "$MODPATH/classes.dex"
+    rm -f "$MODPATH/post-fs-data.sh"
+else
+	chmod 755 "$MODPATH/post-fs-data.sh"
 fi
 
-chmod 755 "$MODPATH/service.sh" "$MODPATH/post-fs-data.sh"
+chmod 755 "$MODPATH/service.sh"
