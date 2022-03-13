@@ -1,5 +1,6 @@
-# Universal SafetyNet Fix (Zygisk/Riru)
+# Universal SafetyNet Fix 
 
+This module is working properly on Zygisk and Riru.
 Magisk module to work around Google's SafetyNet attestation.
 
 This module works around hardware attestation and recent updates to SafetyNet CTS profile checks. You must already be able to pass basic CTS profile attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels.
