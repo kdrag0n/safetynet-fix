@@ -4,11 +4,11 @@ package dev.kdrag0n.safetynetriru
 object EntryPoint {
     @JvmStatic
     fun init() {
-        runCatching {
+        try {
             logDebug("Entry point: Initializing SafetyNet patches")
             SecurityHooks.init()
             BuildHooks.init()
-        }.recoverCatching { e ->
+        } catch (e: Throwable) {
             // Throwing an exception would require the JNI code to handle exceptions, so just catch
             // everything here.
             logDebug("Error in entry point", e)
