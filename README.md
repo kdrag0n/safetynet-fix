@@ -1,4 +1,4 @@
-# Universal SafetyNet Fix
+# Universal SafetyNet Fix (Zygisk/Riru)
 
 Magisk module to work around Google's SafetyNet attestation.
 
