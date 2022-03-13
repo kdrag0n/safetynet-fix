@@ -1,7 +1,7 @@
-package dev.kdrag0n.safetynetriru.proxy
+package dev.kdrag0n.safetynetfix.proxy
 
-import dev.kdrag0n.safetynetriru.SecurityHooks
-import dev.kdrag0n.safetynetriru.logDebug
+import dev.kdrag0n.safetynetfix.SecurityHooks
+import dev.kdrag0n.safetynetfix.logDebug
 import java.security.Provider
 
 // This is mostly just a pass-through provider that exists to change the provider's ClassLoader.

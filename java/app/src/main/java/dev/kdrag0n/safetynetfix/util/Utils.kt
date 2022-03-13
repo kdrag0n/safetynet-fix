@@ -1,9 +1,9 @@
-package dev.kdrag0n.safetynetriru
+package dev.kdrag0n.safetynetfix
 
 import android.util.Log
 
 private const val DEBUG = false
-private const val TAG = "SafetyNetRiru/Java"
+private const val TAG = "safetynetfix/Java"
 
 internal fun <T> Any.get(name: String) = this::class.java.getDeclaredField(name).let { field ->
     field.isAccessible = true

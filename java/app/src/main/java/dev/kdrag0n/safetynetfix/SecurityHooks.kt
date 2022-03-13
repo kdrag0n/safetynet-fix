@@ -1,7 +1,7 @@
-package dev.kdrag0n.safetynetriru
+package dev.kdrag0n.safetynetfix
 
-import dev.kdrag0n.safetynetriru.proxy.ProxyKeyStoreSpi
-import dev.kdrag0n.safetynetriru.proxy.ProxyProvider
+import dev.kdrag0n.safetynetfix.proxy.ProxyKeyStoreSpi
+import dev.kdrag0n.safetynetfix.proxy.ProxyProvider
 import java.security.KeyStore
 import java.security.KeyStoreSpi
 import java.security.Security
