@@ -24,4 +24,3 @@ ro.secure=1
 
 # SELinux
 ro.boot.selinux=enforcing
-ro.build.selinux=1

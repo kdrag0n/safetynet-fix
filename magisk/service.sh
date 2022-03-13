@@ -28,6 +28,8 @@ cat "/proc/cmdline" | sed 's/orange/green/i' | sed 's/yellow/green/i' | sed 's/u
 mount -o bind "${MODDIR}/cmdline /proc/cmdline"
 
 # SELinux permissive
+resetprop --delete ro.build.selinux
+
 if [[ "$(cat /sys/fs/selinux/enforce)" == "0" ]]; then
     echo "1" > "${MODDIR}/enforce"
 
