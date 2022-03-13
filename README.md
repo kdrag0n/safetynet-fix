@@ -2,41 +2,27 @@
 
 Magisk module to work around Google's SafetyNet attestation.
 
-This module works around hardware attestation and recent updates to SafetyNet CTS profile checks. However, you must be able to pass basic (i.e. non-hardware) attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels.
+This module works around hardware attestation and recent updates to SafetyNet CTS profile checks. You must already be able to pass basic CTS profile attestation, which requires a valid combination of device and model names, build fingerprints, and security patch levels.
 
-If you have trouble passing basic attestation after installing this module, use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof your CTS profile. This is a common issue on old devices, custom ROMs, and stock ROMs without GMS certification (e.g. Chinese ROMs).
+If you still have trouble passing SafetyNet with this module, use [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf) to spoof a certified device profile. This is a common issue on old devices, custom ROMs, and stock ROMs without GMS certification (e.g. Chinese ROMs).
 
-Android versions 8–12 are supported, including OEM skins such as Samsung One UI and MIUI. **This module requires Zygisk (for Magisk Canary) or Riru (for stable Magisk).**
+Android versions up to 13 Developer Preview 1 are supported, including OEM skins such as Samsung One UI and MIUI.
 
-## Installation
+## Download
 
-The module must be installed using Magisk Manager, not TWRP or any other custom recovery.
+**[Download latest version](https://github.com/kdrag0n/safetynet-fix/releases)**
 
-Always make sure you have the **latest version of the module** installed before reporting any issues.
+Install the downloaded module in Magisk Manager, then **enable Zygisk in Magisk settings.**
 
-## Zygisk (recommended)
-
-If you are using Magisk v24.0 or newer, you need the Zygisk version of this module. Download and install the latest **Zygisk** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases).
-
-**Make sure Zygisk is enabled,** or the module will not work.
-
-## Riru (legacy)
-
-If you are using Magisk v23.1 or older, you need the Riru version of this module. Download and install the latest **Riru** version of this module from [GitHub Releases](https://github.com/kdrag0n/safetynet-fix/releases). You will also need to install "Riru" through Magisk Manager.
+There is also a [Riru version](https://github.com/kdrag0n/safetynet-fix/releases/tag/v2.1.3) for Magisk v23 and older.
 
 ## How does it work?
 
-Google Play Services opportunistically uses hardware-backed attestation to enforce SafetyNet security (since January 12, 2021), and enforces its usage based on the device model name (since September 2, 2021).
-
-This module uses Riru to inject code into the Google Play Services process and then register a fake keystore provider that overrides the real one. When Play Services attempts to use key attestation, it throws an exception and pretends that the device lacks support for key attestation. This causes SafetyNet to fall back to basic attestation, which is much weaker and can be bypassed with existing methods.
-
-However, blocking key attestation alone does not suffice because basic attestation fails on devices that are known by Google to support hardware-backed attestation. This module bypasses the check by appending a space character to the device model name. This has minimal impact on UX when only applied to Google Play Services, but it's sufficient for bypassing enforcement of hardware-backed attestation.
-
-Unlike many other approaches, this doesn't break other features because key attestation is only blocked for Google Play Services, and even within Play Services, it is only blocked for SafetyNet code. As a result, other attestation-based features (such as using the device as a security key) will still work.
+See [Details](docs/details.md) for details about how this module works.
 
 ## ROM integration
 
-Ideally, this workaround should be incorporated in custom ROMs instead of injecting code with a Magisk module. See the [ProtonAOSP website](https://protonaosp.kdrag0n.dev/developers/details/safetynet) for more information.
+Ideally, this workaround should be incorporated in custom ROMs instead of injecting code with a Magisk module. See the [ProtonAOSP website](https://protonaosp.org/developers/details/safetynet) for more information.
 
 ## Support
 
