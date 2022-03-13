@@ -6,7 +6,7 @@ import java.security.KeyStore
 import java.security.KeyStoreSpi
 import java.security.Security
 
-internal object SecurityBridge {
+internal object SecurityHooks {
     const val PROVIDER_NAME = "AndroidKeyStore"
 
     fun init() {

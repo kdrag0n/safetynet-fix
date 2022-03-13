@@ -6,7 +6,7 @@ object EntryPoint {
     fun init() {
         runCatching {
             logDebug("Entry point: Initializing SafetyNet patches")
-            SecurityBridge.init()
+            SecurityHooks.init()
             BuildHooks.init()
         }.recoverCatching { e ->
             // Throwing an exception would require the JNI code to handle exceptions, so just catch

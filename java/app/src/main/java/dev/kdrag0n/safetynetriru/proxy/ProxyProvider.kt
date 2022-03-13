@@ -1,6 +1,6 @@
 package dev.kdrag0n.safetynetriru.proxy
 
-import dev.kdrag0n.safetynetriru.SecurityBridge
+import dev.kdrag0n.safetynetriru.SecurityHooks
 import dev.kdrag0n.safetynetriru.logDebug
 import java.security.Provider
 
@@ -14,7 +14,7 @@ class ProxyProvider(
         logDebug("Init proxy provider - wrapping $orig")
 
         putAll(orig)
-        this["KeyStore.${SecurityBridge.PROVIDER_NAME}"] = ProxyKeyStoreSpi::class.java.name
+        this["KeyStore.${SecurityHooks.PROVIDER_NAME}"] = ProxyKeyStoreSpi::class.java.name
     }
 
     override fun getService(type: String?, algorithm: String?): Service? {
