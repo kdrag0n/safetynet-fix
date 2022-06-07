@@ -1,0 +1,3 @@
+# block normal apps from obtaining bootloader status by faking that hardware attestation is broken
+
+deny { untrusted_app isolated_app untrusted_app_30 untrusted_app_29 app_zygote untrusted_app_27 } keystore keystore_key *
