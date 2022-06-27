@@ -84,9 +84,8 @@ private:
     }
 
     void preSpecialize(const std::string& process) {
-        // Only take action for GMS, otherwise unload
+        // Only touch GMS
         if (process.rfind("com.google.android.gms", 0) != 0) {
-            // If this isn't GMS, bail out and unload.
             api->setOption(zygisk::DLCLOSE_MODULE_LIBRARY);
             return;
         }
