@@ -83,7 +83,7 @@ private:
         close(fd);
     }
 
-    void preSpecialize(std::string process) {
+    void preSpecialize(const std::string& process) {
         // Only take action for GMS, otherwise unload
         if (process.rfind("com.google.android.gms", 0) != 0) {
             // If this isn't GMS, bail out and unload.
