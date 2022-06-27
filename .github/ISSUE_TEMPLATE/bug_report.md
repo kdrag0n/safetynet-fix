@@ -42,4 +42,4 @@ Add any other context about the problem here.
 **Checklist**
 - [ ] All information is present
 - [ ] Logs are attached
-- [ ] I have tried installing and configuring [MagiskHide Props Config]https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf)
+- [ ] I have tried installing and configuring [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf)
