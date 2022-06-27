@@ -131,7 +131,7 @@ private:
         LOGD("load class");
         auto loadClass = env->GetMethodID(clClass, "loadClass",
                                                "(Ljava/lang/String;)Ljava/lang/Class;");
-        auto entryClassName = env->NewStringUTF("dev.kdrag0n.safetynetriru.EntryPoint");
+        auto entryClassName = env->NewStringUTF("dev.kdrag0n.safetynetfix.EntryPoint");
         auto entryClassObj = env->CallObjectMethod(dexCl, loadClass, entryClassName);
 
         // Call init. Static initializers don't run when merely calling loadClass from JNI.
