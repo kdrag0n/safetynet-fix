@@ -42,4 +42,18 @@ fi
 
     # avoid breaking OnePlus display modes/fingerprint scanners
     resetprop vendor.boot.verifiedbootstate green
+
+    # Oneplus
+    resetprop ro.is_ever_orange 0
+
+    # Safetynet
+     resetprop ro.boot.verifiedbootstate green
+     resetprop ro.boot.veritymode enforcing
+     resetprop vendor.boot.vbmeta.device_state locked
+
+    # Kill Google Services
+    killall com.google.android.gms
+    killall com.google.android.gms.unstable
+
+
 }&

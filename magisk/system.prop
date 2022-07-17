@@ -9,14 +9,6 @@ ro.vendor.boot.warranty_bit=0
 ro.vendor.warranty_bit=0
 ro.warranty_bit=0
 
-# OnePlus
-ro.is_ever_orange=0
-
-# SafetyNet
-ro.boot.verifiedbootstate=green
-ro.boot.veritymode=enforcing
-vendor.boot.vbmeta.device_state=locked
-
 # Other
 ro.build.type=user
 ro.debuggable=0
