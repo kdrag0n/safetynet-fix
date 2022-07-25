@@ -42,4 +42,12 @@ fi
 
     # avoid breaking OnePlus display modes/fingerprint scanners
     resetprop vendor.boot.verifiedbootstate green
+
+    # Safetynet (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12)
+    resetprop ro.boot.verifiedbootstate green
+    resetprop ro.boot.veritymode enforcing
+    resetprop vendor.boot.vbmeta.device_state locked
+
+	# Oneplus (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12) 
+    resetprop ro.is_ever_orange 0
 }&
