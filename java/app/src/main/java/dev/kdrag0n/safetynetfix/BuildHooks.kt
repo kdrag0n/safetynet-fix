@@ -11,7 +11,7 @@ internal object BuildHooks {
         }
         Build::class.java.getDeclaredField("FINGERPRINT").let { field ->
             field.isAccessible = true
-            field.set(null, "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys")
+            field.set(null, "google/angler/angler:6.0/MDB08L/2343525:user/release-keys")
         }
     }
 }
