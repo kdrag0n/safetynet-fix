@@ -48,6 +48,12 @@ fi
     resetprop ro.boot.veritymode enforcing
     resetprop vendor.boot.vbmeta.device_state locked
 
-	# Oneplus (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12) 
+    # Oneplus (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12) 
     resetprop ro.is_ever_orange 0
+
+    # avoid breaking encryption, set shipping level to 32 for devices >=33 to allow for software attestation.
+    if [[ "$(getprop ro.product.first_api_level)" -ge 33 ]]; then
+        resetprop ro.product.first_api_level 32
+    fi
+
 }&
