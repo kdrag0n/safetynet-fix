@@ -34,14 +34,20 @@ fi
         sleep 1
     done
 
-    # Avoid breaking many fingerprint scanners and other things
+    # avoid breaking Realme fingerprint scanners
     resetprop ro.boot.flash.locked 1
+
+    # avoid breaking Oppo fingerprint scanners
     resetprop ro.boot.vbmeta.device_state locked
+
+    # avoid breaking OnePlus display modes/fingerprint scanners
+    resetprop vendor.boot.verifiedbootstate green
+
+    # Safetynet (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12)
     resetprop ro.boot.verifiedbootstate green
     resetprop ro.boot.veritymode enforcing
-    resetprop vendor.boot.verifiedbootstate green
     resetprop vendor.boot.vbmeta.device_state locked
 
-    # SafetyNet/PlayIntegrity (bypassing forced STRONG integrity for devices that shipped with 13+)
-    resetprop ro.product.first_api_level 26
+	# Oneplus (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12) 
+    resetprop ro.is_ever_orange 0
 }&
