@@ -42,4 +42,9 @@ fi
 
     # avoid breaking OnePlus display modes/fingerprint scanners
     resetprop vendor.boot.verifiedbootstate green
+
+    # avoid breaking encryption, set shipping level to 32 for devices >=33 to allow for software attestation.
+    if [[ "$(getprop ro.product.first_api_level)" -ge 33 ]]; then
+        resetprop ro.product.first_api_level 32
+    fi
 }&
