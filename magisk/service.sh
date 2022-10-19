@@ -42,4 +42,7 @@ fi
 
     # avoid breaking OnePlus display modes/fingerprint scanners
     resetprop vendor.boot.verifiedbootstate green
+    
+    # makes bank apps and Google Pay happy
+    resetprop sys.oem_unlock_allowed 0
 }&
