@@ -1,7 +1,7 @@
 id=safetynet-fix
 name=Universal SafetyNet Fix
-version=v2.3.1
+version=v2.3.1-MOD
 versionCode=20301
-author=kdrag0n
-description=A universal fix for SafetyNet and Play Integrity API on Android 8–13 devices with hardware attestation and unlocked bootloaders.
+author=kdrag0n, modded by Displax
+description=A universal fix for SafetyNet & Play Integrity APIs up to Android 13 devices with hardware attestation and unlocked bootloaders.
 updateJson=https://raw.githubusercontent.com/kdrag0n/safetynet-fix/master/update.json
