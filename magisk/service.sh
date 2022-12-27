@@ -34,13 +34,13 @@ fi
         sleep 1
     done
 
-    # avoid breaking Realme fingerprint scanners
+    # Avoid breaking Realme fingerprint scanners
     resetprop ro.boot.flash.locked 1
 
-    # avoid breaking Oppo fingerprint scanners
+    # Avoid breaking Oppo fingerprint scanners
     resetprop ro.boot.vbmeta.device_state locked
 
-    # avoid breaking OnePlus display modes/fingerprint scanners
+    # Avoid breaking OnePlus display modes/fingerprint scanners
     resetprop vendor.boot.verifiedbootstate green
 
     # Safetynet (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12)
@@ -48,9 +48,14 @@ fi
     resetprop ro.boot.veritymode enforcing
     resetprop vendor.boot.vbmeta.device_state locked
 
-    # avoid breaking encryption, set shipping level to 32 for devices >=33 to allow for software attestation.
+    # Avoid breaking encryption, set shipping level to 32 for devices >=33 to allow for software attestation
     if [[ "$(getprop ro.product.first_api_level)" -ge 33 ]]; then
         resetprop ro.product.first_api_level 32
     fi
 
+    # To make sure that system does not overwrite this props during long booting
+    sleep 15
+
+    # Hide "Enable OEM Unlock" setting. Safe to change after "boot_completed"
+    resetprop sys.oem_unlock_allowed 0
 }&
