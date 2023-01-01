@@ -14,7 +14,7 @@ Android versions up to 13 are supported, including OEM skins such as Samsung One
 
 Install the downloaded module in Magisk Manager, then **enable Zygisk in Magisk settings.**
 
-There is also a [Riru version](https://github.com/kdrag0n/safetynet-fix/releases/tag/v2.1.3) for Magisk v23 and older, but it is no longer updated. Please update to a current version of Magisk and use the Zygisk version.
+There is also a [Riru version](https://github.com/kdrag0n/safetynet-fix/releases/tag/v2.1.3) for Magisk 23 and older, but it is no longer updated. Please update to a current version of Magisk and use the Zygisk version.
 
 ## How does it work?
 
