@@ -1,18 +1,17 @@
-# v2.4.0
+# v2.3.1
 
 ## Highlights
 
-- **Play Integrity bypass** without breaking device checks or causing other issues
-- Disabled use of hardware attestation on Pixel 7 and newer (@anirudhgupta109)
+- Fixed fingerprint on OxygenOS/ColorOS 12 (@osm0sis)
+- Support for Magisk 24+ module updates (@benjibobs)
+- Restored support for Android 7
 
 ## Other changes
 
-- Updated instructions for newer Android and Magisk versions
-- Better debugging for future development
+- Spoofed OnePlus OEM unlock status for futureproofing (@osm0sis)
+- Minor code improvements
 
 **This version only supports Zygisk (Magisk 24 and newer).**
-
-It's taken a while to find way to bypass Play Integrity that doesn't require spoofing the build fingerprint permanently, but I wanted to make sure this module doesn't cause any unnecessary breakage. Enjoy!
 
 ---
 
