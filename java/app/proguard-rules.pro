@@ -54,3 +54,4 @@
     # Remove remaining stray calls to stringPlus
     static java.lang.String stringPlus(java.lang.String, java.lang.Object);
 }
+
