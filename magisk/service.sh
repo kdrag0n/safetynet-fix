@@ -1,55 +1,83 @@
 #!/system/bin/sh
-# Conditional MagiskHide properties
 
-maybe_set_prop() {
-    local prop="$1"
-    local contains="$2"
-    local value="$3"
+## This script is part of the Universal SafetyNet Fix module project.
+## kdrag0n @ xda-developers
 
-    if [[ "$(getprop "$prop")" == *"$contains"* ]]; then
-        resetprop "$prop" "$value"
+# Some sensitive [secure] properties are dynamic and need to be adjusted (set) during boot and/or after boot compleate.
+
+
+# # Module directory set by Magisk.
+# MODDIR=${0%/*}
+
+# __ Define functions. __
+
+remove_prop() {
+    if [ "$(getprop $1)" ]; then
+        resetprop -n --delete $1
     fi
 }
 
-# Magisk recovery mode
-maybe_set_prop ro.bootmode recovery unknown
-maybe_set_prop ro.boot.mode recovery unknown
-maybe_set_prop vendor.boot.mode recovery unknown
+reset_prop() {
+    if [ "$(getprop $1)" ]; then
+        if [ "$(getprop $1)" = "$2" ]; then
+            resetprop -n $1 $3
+        fi
+    fi
+}
 
-# MIUI cross-region flash
-maybe_set_prop ro.boot.hwc CN GLOBAL
-maybe_set_prop ro.boot.hwcountry China GLOBAL
+set_max() {
+    if [ "$(getprop $1)" ]; then
+        if [ "$(getprop $1)" -gt "$2" ]; then
+            resetprop -n $1 $2
+        fi
+    fi
+}
 
-resetprop --delete ro.build.selinux
+set_min() {
+    if [ "$(getprop $1)" ]; then
+        if [ "$(getprop $1)" -lt "$2" ]; then
+            resetprop -n $1 $2
+        fi
+    fi
+}
 
-# SELinux permissive
-if [[ "$(cat /sys/fs/selinux/enforce)" == "0" ]]; then
-    chmod 640 /sys/fs/selinux/enforce
-    chmod 440 /sys/fs/selinux/policy
-fi
+set_prop() {
+    if [ "$(getprop $1)" ]; then
+        if [ "$(getprop $1)" != "$2" ]; then
+            resetprop -n $1 $2
+        fi
+    fi
+}
 
-# Late props which must be set after boot_completed
+# __ Check and adjust sensitive [secure] properties as needed. __
+
+# Hide that we booted from recovery when magisk is in recovery mode.
+reset_prop ro.boot.mode recovery unknown
+reset_prop ro.bootmode recovery unknown
+reset_prop vendor.boot.mode recovery unknown
+
+# Xiaomi cross region flash
+reset_prop ro.boot.hwc CN GLOBAL
+reset_prop ro.boot.hwcountry China GLOBAL
+
+# Remove properties.
+remove_prop ro.build.selinux
+
+# __ Wait for boot compleate to set some properties. __
+
 {
-    until [[ "$(getprop sys.boot_completed)" == "1" ]]; do
-        sleep 1
+    until [ "$(getprop sys.boot_completed)" -eq 1 ]; do
+        date +%N > /dev/null
     done
 
-    # Avoid breaking Realme fingerprint scanners
-    resetprop ro.boot.flash.locked 1
-
-    # Avoid breaking Oppo fingerprint scanners
-    resetprop ro.boot.vbmeta.device_state locked
-
-    # Avoid breaking OnePlus display modes/fingerprint scanners
-    resetprop vendor.boot.verifiedbootstate green
-
-    # Safetynet (avoid breaking OnePlus display modes/fingerprint scanners on OOS 12)
-    resetprop ro.boot.verifiedbootstate green
-    resetprop ro.boot.veritymode enforcing
-    resetprop vendor.boot.vbmeta.device_state locked
-
-    # Avoid breaking encryption, set shipping level to 32 for devices >=33 to allow for software attestation
-    if [[ "$(getprop ro.product.first_api_level)" -ge 33 ]]; then
-        resetprop ro.product.first_api_level 32
-    fi
+    # Properties that need to be set after boot compleate.
+    set_prop ro.boot.flash.locked 1
+    set_prop ro.boot.vbmeta.device_state locked
+    set_prop ro.boot.verifiedbootstate green
+    set_prop ro.boot.veritymode enforcing
+    set_max ro.product.first_api_level 32
+    set_prop ro.secure 1
+    set_prop sys.oem_unlock_allowed 0
+    set_prop vendor.boot.vbmeta.device_state locked
+    set_prop vendor.boot.verifiedbootstate green
 }&
