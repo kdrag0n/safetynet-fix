@@ -4,12 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    namespace 'dev.kdrag0n.safetynetfix'
+
+    compileSdk 33
 
     defaultConfig {
         applicationId "dev.kdrag0n.safetynetfix"
         minSdk 24
-        targetSdk 30
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -33,5 +35,5 @@ android {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
 }
