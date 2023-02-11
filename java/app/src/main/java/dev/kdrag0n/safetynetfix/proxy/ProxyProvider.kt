@@ -23,22 +23,64 @@ class ProxyProvider(
 
     override fun getService(type: String?, algorithm: String?): Service? {
         logDebug("Provider: get service - type=$type algorithm=$algorithm")
-        if (algorithm == "AndroidCAStore") {
-            val orig = Build.FINGERPRINT
-            val patched = "google/angler/angler:6.0/MDB08L/2343525:user/release-keys"
-            logDebug("patch build for castore $orig -> $patched")
-            // Append a space to the device model name
+        if (algorithm == "AndroidKeyStore" || algorithm == "AndroidCAStore") {
+
+            val origProduct = Build.PRODUCT
+            val patchedProduct = "marlin"
+
+            val origDevice = Build.DEVICE
+            val patchedDevice = "marlin"
+
+            val origModel = Build.MODEL
+            val patchedModel = "Pixel XL"
+
+            val origFingerprint = Build.FINGERPRINT
+            val patchedFingerprint = "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys"
+
+
+            logDebug("Patch PRODUCT for AndroidKeyStore $origProduct -> $patchedProduct")
+            Build::class.java.getDeclaredField("PRODUCT").let { field ->
+                field.isAccessible = true
+                field.set(null, patchedProduct)
+            }
+            logDebug("Patch DEVICE for AndroidKeyStore $origDevice -> $patchedDevice")
+            Build::class.java.getDeclaredField("DEVICE").let { field ->
+                field.isAccessible = true
+                field.set(null, patchedDevice)
+            }
+            logDebug("Patch MODEL for AndroidKeyStore $origModel -> $patchedModel")
+            Build::class.java.getDeclaredField("MODEL").let { field ->
+                field.isAccessible = true
+                field.set(null, patchedModel)
+            }
+            logDebug("Patch FINGERPRINT for AndroidKeyStore $origFingerprint -> $patchedFingerprint")
             Build::class.java.getDeclaredField("FINGERPRINT").let { field ->
                 field.isAccessible = true
-                field.set(null, patched)
+                field.set(null, patchedFingerprint)
             }
+
 
             thread(isDaemon = true) {
                 Thread.sleep(PATCH_DURATION)
-                logDebug("unpatch")
+                logDebug("Unpatch PRODUCT")
+                Build::class.java.getDeclaredField("PRODUCT").let { field ->
+                    field.isAccessible = true
+                    field.set(null, origProduct)
+                }
+                logDebug("Unpatch DEVICE")
+                Build::class.java.getDeclaredField("DEVICE").let { field ->
+                    field.isAccessible = true
+                    field.set(null, origDevice)
+                }
+                logDebug("Unpatch MODEL")
+                Build::class.java.getDeclaredField("MODEL").let { field ->
+                    field.isAccessible = true
+                    field.set(null, origModel)
+                }
+                logDebug("Unpatch FINGERPRINT")
                 Build::class.java.getDeclaredField("FINGERPRINT").let { field ->
                     field.isAccessible = true
-                    field.set(null, orig)
+                    field.set(null, origFingerprint)
                 }
             }
         }
