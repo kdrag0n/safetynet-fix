@@ -23,7 +23,7 @@ class ProxyProvider(
 
     override fun getService(type: String?, algorithm: String?): Service? {
         logDebug("Provider: get service - type=$type algorithm=$algorithm")
-        if (algorithm == "AndroidKeyStore" || algorithm == "AndroidCAStore") {
+        if (type == "KeyStore") {
 
             val origProduct = Build.PRODUCT
             val patchedProduct = "marlin"
