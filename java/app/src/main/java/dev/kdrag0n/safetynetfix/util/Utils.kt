@@ -1,5 +1,6 @@
 package dev.kdrag0n.safetynetfix
 
+import android.os.Build
 import android.app.Application
 import android.util.Log
 
@@ -13,13 +14,13 @@ internal fun <T> Any.get(name: String) = this::class.java.getDeclaredField(name)
 }
 
 internal fun logDebug(msg: String) {
-    if (DEBUG) {
+    if (DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         Log.d(TAG, "[${Application.getProcessName()}] $msg")
     }
 }
 
 internal fun logDebug(msg: String, e: Throwable) {
-    if (DEBUG) {
+    if (DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         Log.d(TAG, "[${Application.getProcessName()}] $msg", e)
     }
 }
