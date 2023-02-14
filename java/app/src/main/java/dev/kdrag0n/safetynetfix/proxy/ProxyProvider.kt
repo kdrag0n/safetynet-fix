@@ -6,8 +6,6 @@ import dev.kdrag0n.safetynetfix.logDebug
 import java.security.Provider
 import kotlin.concurrent.thread
 
-private const val PATCH_DURATION = 2000L
-
 // This is mostly just a pass-through provider that exists to change the provider's ClassLoader.
 // This works because Service looks up the class by name from the *provider* ClassLoader, not
 // necessarily the bootstrap one.
@@ -37,51 +35,25 @@ class ProxyProvider(
             val origFingerprint = Build.FINGERPRINT
             val patchedFingerprint = "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys"
 
-
-            logDebug("Patch PRODUCT for AndroidKeyStore $origProduct -> $patchedProduct")
+            logDebug("Patch PRODUCT for KeyStore $origProduct -> $patchedProduct")
             Build::class.java.getDeclaredField("PRODUCT").let { field ->
                 field.isAccessible = true
                 field.set(null, patchedProduct)
             }
-            logDebug("Patch DEVICE for AndroidKeyStore $origDevice -> $patchedDevice")
+            logDebug("Patch DEVICE for KeyStore $origDevice -> $patchedDevice")
             Build::class.java.getDeclaredField("DEVICE").let { field ->
                 field.isAccessible = true
                 field.set(null, patchedDevice)
             }
-            logDebug("Patch MODEL for AndroidKeyStore $origModel -> $patchedModel")
+            logDebug("Patch MODEL for KeyStore $origModel -> $patchedModel")
             Build::class.java.getDeclaredField("MODEL").let { field ->
                 field.isAccessible = true
                 field.set(null, patchedModel)
             }
-            logDebug("Patch FINGERPRINT for AndroidKeyStore $origFingerprint -> $patchedFingerprint")
+            logDebug("Patch FINGERPRINT for KeyStore $origFingerprint -> $patchedFingerprint")
             Build::class.java.getDeclaredField("FINGERPRINT").let { field ->
                 field.isAccessible = true
                 field.set(null, patchedFingerprint)
-            }
-
-
-            thread(isDaemon = true) {
-                Thread.sleep(PATCH_DURATION)
-                logDebug("Unpatch PRODUCT")
-                Build::class.java.getDeclaredField("PRODUCT").let { field ->
-                    field.isAccessible = true
-                    field.set(null, origProduct)
-                }
-                logDebug("Unpatch DEVICE")
-                Build::class.java.getDeclaredField("DEVICE").let { field ->
-                    field.isAccessible = true
-                    field.set(null, origDevice)
-                }
-                logDebug("Unpatch MODEL")
-                Build::class.java.getDeclaredField("MODEL").let { field ->
-                    field.isAccessible = true
-                    field.set(null, origModel)
-                }
-                logDebug("Unpatch FINGERPRINT")
-                Build::class.java.getDeclaredField("FINGERPRINT").let { field ->
-                    field.isAccessible = true
-                    field.set(null, origFingerprint)
-                }
             }
         }
         return super.getService(type, algorithm)
