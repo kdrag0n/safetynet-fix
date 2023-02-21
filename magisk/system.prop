@@ -14,3 +14,6 @@ ro.is_ever_orange=0
 ro.build.type=user
 ro.debuggable=0
 ro.secure=1
+
+# SELinux
+ro.boot.selinux=enforcing
