@@ -47,6 +47,13 @@ fi
     resetprop ro.boot.verifiedbootstate green
     resetprop ro.boot.veritymode enforcing
     resetprop vendor.boot.vbmeta.device_state locked
+	
+    # Fix empty returns for shipping level
+    if [[ "$(getprop ro.product.first_api_level)"]]; then
+        echo "No need"
+    else
+       resetprop -n ro.product.first_api_level $(getprop ro.build.version.sdk)
+    fi
 
     # Avoid breaking encryption, set shipping level to 32 for devices >=33 to allow for software attestation
     if [[ "$(getprop ro.product.first_api_level)" -ge 33 ]]; then
