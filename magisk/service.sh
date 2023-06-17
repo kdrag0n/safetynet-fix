@@ -18,6 +18,12 @@ maybe_set_prop vendor.boot.mode recovery unknown
 
 resetprop --delete ro.build.selinux
 
+# SELinux permissive | use toybox to protect stat access time
+if [[ "$(toybox cat /sys/fs/selinux/enforce)" == "0" ]]; then
+    chmod 640 /sys/fs/selinux/enforce
+    chmod 440 /sys/fs/selinux/policy
+fi
+
 # Late props which must be set after boot_completed
 {
     until [[ "$(getprop sys.boot_completed)" == "1" ]]; do
