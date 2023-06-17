@@ -21,7 +21,8 @@ class ProxyProvider(
 
     override fun getService(type: String?, algorithm: String?): Service? {
         logDebug("Provider: get service - type=$type algorithm=$algorithm")
-        if (type == "KeyStore") {
+        val host = Build.HOST
+        if (type == "KeyStore" && host != "xiaomi.eu") {
 
             val origProduct = Build.PRODUCT
             val patchedProduct = "marlin"
