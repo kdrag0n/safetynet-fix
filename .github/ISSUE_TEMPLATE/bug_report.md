@@ -25,8 +25,9 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Screenshots of SafetyNet & Play Integrity API tests result**
+Testing SafetyNet: https://play.google.com/store/apps/details?id=rikka.safetynetchecker
+Testing Play Integrity API: https://play.google.com/store/apps/details?id=gr.nikolasspyr.integritycheck
 
 **Device info**
 Device model:
@@ -34,12 +35,13 @@ Android version:
 ROM name/version:
 
 **Logs**
-Connect your phone to a computer and run `adb logcat > issue.log`. Attach the log file to this issue.
+Connect your phone to a computer and run `adb logcat > issue.log` then run SafetyNet & Play Integrity API tests. Stop log by `Ctrl + C` combination. Attach the log file to this issue.
 
 **Additional context**
 Add any other context about the problem here.
 
 **Checklist**
+- [ ] I confirm that the SELinux status is `Enforcing` on my device.
 - [ ] All information is present
+- [ ] Screenshots are attached
 - [ ] Logs are attached
-- [ ] I have tried installing and configuring [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf)
